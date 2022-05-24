@@ -23,8 +23,8 @@ state = {
 
         { categorias.map(({ name, id }) => (
           <div key={ id }>
-            <input type="radio" data-testid="category" />
-            <label htmlFor="category">{name}</label>
+            <input type="radio" data-testid="category" id= { id } />
+            <label htmlFor={ id }>{name}</label>
           </div>))}
       </>
     );
