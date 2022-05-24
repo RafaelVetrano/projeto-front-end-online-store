@@ -1,12 +1,15 @@
 import React from 'react';
-import './App.css';
+import { BrowserRouter, Route } from 'react-router-dom';
+import Listagem from './components/Listagem';
 
 class App extends React.Component {
   render() {
     return (
-      <div className="App">
-        
-      </div>
+      <BrowserRouter>
+        <Route exact path="/">
+          <Listagem />
+        </Route>
+      </BrowserRouter>
     );
   }
 }
