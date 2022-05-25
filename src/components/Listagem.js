@@ -12,6 +12,13 @@ class Listagem extends React.Component {
       categorias: [],
     };
     this.handleBusca = this.handleBusca.bind(this);
+    this.handleCategoria = this.handleCategoria.bind(this);
+  }
+
+  handleCategoria = async ({ target }) => {
+    const { id, name } = target;
+    const produtos = await getProductsFromCategoryAndQuery(id, name);
+    this.setState({ produto: produtos.results });
   }
 
   handleBusca = async () => {
@@ -59,9 +66,17 @@ class Listagem extends React.Component {
 
         { categorias.map(({ name, id }) => (
           <div key={ id }>
-            <input type="radio" data-testid="category" id={ id } name="category" />
-            <label htmlFor={ id }>{name}</label>
+            <input
+              type="radio"
+              data-testid="category"
+              id={ id }
+              name="category"
+              onClick={ this.handleCategoria }
+              value={ name }
+            />
+            <label htmlFor={ id }>{ name }</label>
           </div>))}
+
         {!produto ? (
           <BuascaVazio />
         ) : (
