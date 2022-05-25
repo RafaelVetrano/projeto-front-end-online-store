@@ -18,28 +18,17 @@ class Listagem extends React.Component {
     const { buscar } = this.state;
     const produtos = await getProductsFromCategoryAndQuery(buscar);
     this.setState({ produto: produtos.results });
+  }
+
+  componentDidMount = async () => {
+    const response = await getCategories();
+    this.setState({ categorias: response });
+  }
 
   render() {
     const { categorias, produto } = this.state;
     return (
       <>
-        <input
-          data-testid="query-input"
-          type="text"
-          placeholder="busca"
-          onChange={ ({ target }) => {
-            this.setState({ buscar: target.value });
-          } }
-        />
-
-        <button
-          data-testid="query-button"
-          type="button"
-          onClick={ this.handleBusca }
-        >
-          Pesquisar
-        </button>
-
         <p data-testid="home-initial-message">
           Digite algum termo de pesquisa ou escolha uma categoria.
         </p>
