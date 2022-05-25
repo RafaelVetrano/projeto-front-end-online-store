@@ -1,27 +1,37 @@
 import React from 'react';
-import { getProductsFromCategoryAndQuery } from '../services/api';
+import { Link } from 'react-router-dom';
+import { getCategories, getProductsFromCategoryAndQuery } from '../services/api';
 import BuascaVazio from './BuscaVazio';
 
 class Listagem extends React.Component {
   constructor() {
     super();
-
     this.state = {
       buscar: '',
       produto: [],
+      categorias: [],
     };
+    this.handleBusca = this.handleBusca.bind(this);
   }
 
   handleBusca = async () => {
     const { buscar } = this.state;
     const produtos = await getProductsFromCategoryAndQuery(buscar);
     this.setState({ produto: produtos.results });
-  };
+  }
+
+  componentDidMount = async () => {
+    const response = await getCategories();
+    this.setState({ categorias: response });
+  }
 
   render() {
-    const { produto } = this.state;
+    const { categorias, produto } = this.state;
     return (
       <>
+        <p data-testid="home-initial-message">
+          Digite algum termo de pesquisa ou escolha uma categoria.
+        </p>
         <input
           data-testid="query-input"
           type="text"
@@ -30,6 +40,14 @@ class Listagem extends React.Component {
             this.setState({ buscar: target.value });
           } }
         />
+        <Link
+          to="/cart"
+          data-testid="shopping-cart-button"
+        >
+          <span data-testid="shopping-cart-size">
+            0
+          </span>
+        </Link>
 
         <button
           data-testid="query-button"
@@ -39,10 +57,11 @@ class Listagem extends React.Component {
           Pesquisar
         </button>
 
-        <p data-testid="home-initial-message">
-          Digite algum termo de pesquisa ou escolha uma categoria.
-        </p>
-
+        { categorias.map(({ name, id }) => (
+          <div key={ id }>
+            <input type="radio" data-testid="category" id={ id } name="category" />
+            <label htmlFor={ id }>{name}</label>
+          </div>))}
         {!produto ? (
           <BuascaVazio />
         ) : (
