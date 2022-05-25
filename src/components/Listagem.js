@@ -1,8 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { getCategories } from '../services/api';
 
 class Listagem extends React.Component {
+state = {
+  categorias: [],
+}
+
+  componentDidMount = async () => {
+    const response = await getCategories();
+    this.setState({ categorias: response });
+  }
+
   render() {
+    const { categorias } = this.state;
+
     return (
       <>
         <input type="text" placeholder="busca" />
@@ -17,6 +29,12 @@ class Listagem extends React.Component {
             0
           </span>
         </Link>
+
+        { categorias.map(({ name, id }) => (
+          <div key={ id }>
+            <input type="radio" data-testid="category" id={ id } name="category" />
+            <label htmlFor={ id }>{name}</label>
+          </div>))}
       </>
     );
   }
