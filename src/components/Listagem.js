@@ -6,7 +6,6 @@ import BuascaVazio from './BuscaVazio';
 class Listagem extends React.Component {
   constructor() {
     super();
-
     this.state = {
       buscar: '',
       produto: [],
@@ -15,23 +14,32 @@ class Listagem extends React.Component {
     this.handleBusca = this.handleBusca.bind(this);
   }
 
-  componentDidMount = async () => {
-    const response = await getCategories();
-    this.setState({ categorias: response });
-  }
-
   handleBusca = async () => {
     const { buscar } = this.state;
     const produtos = await getProductsFromCategoryAndQuery(buscar);
     this.setState({ produto: produtos.results });
-  }
 
   render() {
     const { categorias, produto } = this.state;
-
     return (
       <>
-        <input type="text" placeholder="busca" />
+        <input
+          data-testid="query-input"
+          type="text"
+          placeholder="busca"
+          onChange={ ({ target }) => {
+            this.setState({ buscar: target.value });
+          } }
+        />
+
+        <button
+          data-testid="query-button"
+          type="button"
+          onClick={ this.handleBusca }
+        >
+          Pesquisar
+        </button>
+
         <p data-testid="home-initial-message">
           Digite algum termo de pesquisa ou escolha uma categoria.
         </p>
