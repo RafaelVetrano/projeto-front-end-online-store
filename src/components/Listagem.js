@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
+import PropTypes from 'prop-types';
 import { getCategories, getProductsFromCategoryAndQuery } from '../services/api';
 import BuascaVazio from './BuscaVazio';
 
@@ -13,6 +15,7 @@ class Listagem extends React.Component {
     };
     this.handleBusca = this.handleBusca.bind(this);
     this.handleCategoria = this.handleCategoria.bind(this);
+    // this.addCart = this.addCart.bind(this);
   }
 
   handleCategoria = async ({ target }) => {
@@ -27,6 +30,13 @@ class Listagem extends React.Component {
     this.setState({ produto: produtos.results });
   }
 
+  // addCart = ({ target }) => {
+  //   const { id } = target;
+  //   this.setState((prev) => ({
+  //     cart: [...prev.cart, id],
+  //   }));
+  // }
+
   componentDidMount = async () => {
     const response = await getCategories();
     this.setState({ categorias: response });
@@ -34,6 +44,7 @@ class Listagem extends React.Component {
 
   render() {
     const { categorias, produto } = this.state;
+    const { addCart } = this.props;
     return (
       <>
         <p data-testid="home-initial-message">
@@ -85,6 +96,15 @@ class Listagem extends React.Component {
               <p>{ title }</p>
               <img src={ thumbnail } alt={ title } />
               <p>{ price }</p>
+              <button
+                data-testid="product-add-to-cart"
+                key={ uuidv4() }
+                type="button"
+                onClick={ addCart }
+                id={ title }
+              >
+                Add
+              </button>
             </div>
           ))
         )}
@@ -92,5 +112,9 @@ class Listagem extends React.Component {
     );
   }
 }
+
+Listagem.propTypes = {
+  addCart: PropTypes.func.isRequired,
+};
 
 export default Listagem;
