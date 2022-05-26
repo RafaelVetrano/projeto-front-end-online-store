@@ -101,7 +101,7 @@ class Listagem extends React.Component {
                 key={ uuidv4() }
                 type="button"
                 onClick={ addCart }
-                id={ title }
+                title={ title }
               >
                 Add
               </button>
@@ -112,6 +112,9 @@ class Listagem extends React.Component {
                 name={ title }
               >
                 detalhes
+              </Link>
+              <Link to="/cart" data-testid="shopping-cart-button">
+                carrinho
               </Link>
             </div>
           ))
