@@ -44,7 +44,7 @@ class Listagem extends React.Component {
 
   render() {
     const { categorias, produto } = this.state;
-    const { addCart } = this.props;
+    const { addCart, productDetails } = this.props;
     return (
       <>
         <p data-testid="home-initial-message">
@@ -105,6 +105,14 @@ class Listagem extends React.Component {
               >
                 Add
               </button>
+              <Link
+                to="/produto"
+                data-testid="product-detail-link"
+                onClick={ productDetails }
+                name={ title }
+              >
+                detalhes
+              </Link>
             </div>
           ))
         )}
@@ -115,6 +123,7 @@ class Listagem extends React.Component {
 
 Listagem.propTypes = {
   addCart: PropTypes.func.isRequired,
+  productDetails: PropTypes.func.isRequired,
 };
 
 export default Listagem;
