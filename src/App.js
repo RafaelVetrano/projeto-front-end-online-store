@@ -8,20 +8,24 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      cart: [],
+      cart: JSON.parse(localStorage.getItem('cart')) || [],
       produto: '',
     };
   }
 
   addCart = ({ target }) => {
-    const { id } = target;
+    /* const { cart } = this.state; */
+    const { title } = target;
     const obj = {
-      product: id,
+      product: title,
       quantity: 1,
     };
     this.setState((prev) => ({
       cart: [...prev.cart, obj],
-    }));
+    }), () => {
+      const { cart } = this.state;
+      localStorage.setItem('cart', JSON.stringify(cart));
+    });
   }
 
   productDetails = ({ target }) => {
@@ -42,7 +46,7 @@ class App extends React.Component {
           <Cart cart={ cart } />
         </Route>
         <Route exact path="/produto">
-          <Produto produto={ produto } />
+          <Produto produto={ produto } addCart={ this.addCart } />
         </Route>
       </BrowserRouter>
     );
