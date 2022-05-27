@@ -7,7 +7,7 @@ class Cart extends React.Component {
   render() {
     const { cart } = this.props;
     return (
-      <div data-testid="shopping-cart-product-name">
+      <div>
         { cart.length > 0 ? (
           cart.map(({ product, quantity }) => (
             <div key={ uuidv4() }>
