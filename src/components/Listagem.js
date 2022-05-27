@@ -113,9 +113,6 @@ class Listagem extends React.Component {
               >
                 detalhes
               </Link>
-              <Link to="/cart" data-testid="shopping-cart-button">
-                carrinho
-              </Link>
             </div>
           ))
         )}
